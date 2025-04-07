@@ -24,12 +24,20 @@ public class Object_Interact : MonoBehaviour
     private FirstPersonController firstPersonController;
     private bool isCursorVisible = false;  // Declare this at the class level
 
+
+    //Test mtee crosshair w Press E to interact 
+    public GameObject interactPrompt;
+    public GameObject crosshair;
+
     void Start()
     {
-        _canva.enabled = false;
         targetObject = GameObject.Find("PlayerCapsule");
         _playerInput = targetObject.GetComponent<PlayerInput>();
         firstPersonController = targetObject.GetComponent<FirstPersonController>();
+
+        // Ensure UI starts in correct state
+        if (interactPrompt != null) interactPrompt.SetActive(false);
+        if (crosshair != null) crosshair.SetActive(true);
     }
 
     void Update()
@@ -40,29 +48,30 @@ public class Object_Interact : MonoBehaviour
         bool hoveringObject = Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Object");
         float distance = hoveringObject ? Vector3.Distance(targetObject.transform.position, hit.collider.transform.position) : Mathf.Infinity;
 
-        // Show canvas and cursor only when hovering over an object and close enough
+        // Show interaction prompt when hovering and close enough
         if (!isExamining && hoveringObject && distance < 2f)
         {
             if (!isCursorVisible)
             {
-                // Show the cursor and set the flag
                 firstPersonController.SetCursorVisibility(true);
                 isCursorVisible = true;
             }
-            _canva.enabled = true;
+
+            if (interactPrompt != null) interactPrompt.SetActive(true);
         }
         else if (!isExamining)
         {
             if (isCursorVisible)
             {
-                // Hide the cursor and reset the flag
                 firstPersonController.SetCursorVisibility(false);
                 isCursorVisible = false;
             }
-            _canva.enabled = false;
+
+            if (interactPrompt != null) interactPrompt.SetActive(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        // Interaction key (E)
+        if (Input.GetKeyDown(KeyCode.E) && firstPersonController.Grounded)
         {
             if (isExamining)
             {
@@ -98,20 +107,18 @@ public class Object_Interact : MonoBehaviour
     {
         lastMousePosition = Input.mousePosition;
 
-        // Unlock the cursor for free movement during examination
         Cursor.lockState = CursorLockMode.None;
-        firstPersonController.SetCursorVisibility(true); // Make the cursor visible during examination
+        firstPersonController.SetCursorVisibility(true);
 
-        _playerInput.enabled = false; // Disable player input while examining
+        _playerInput.enabled = false;
     }
 
     void StopExamination()
     {
-        // Lock the cursor back and hide it after finishing examination
         Cursor.lockState = CursorLockMode.Locked;
-        firstPersonController.SetCursorVisibility(false); // Hide the cursor when not examining
+        firstPersonController.SetCursorVisibility(false);
 
-        _playerInput.enabled = true; // Re-enable player input
+        _playerInput.enabled = true;
     }
 
     void Examine()
