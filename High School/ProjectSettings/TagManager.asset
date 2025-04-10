@@ -7,6 +7,8 @@ TagManager:
   - CinemachineTarget
   - Push_Object
   - Object
+  - Pushable
+  - PushObject
   layers:
   - Default
   - TransparentFX

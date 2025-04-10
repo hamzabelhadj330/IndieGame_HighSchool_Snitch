@@ -12,7 +12,7 @@ public class DoorInteractable : MonoBehaviour
 
     //Lock Settings
     [Header("Lock Settings")]
-    [SerializeField] private bool isLocked = false; //determines if the door is locked
+    [SerializeField] public bool isLocked = false; //determines if the door is locked
     [SerializeField] private Key requiredKey; // key required to unlock the door
 
     //Audio
@@ -93,4 +93,37 @@ public class DoorInteractable : MonoBehaviour
         }
     }
 
+    ///DoorUnlock
+
+    public void UnlockDoor()
+    {
+        isLocked = false;
+        ToggleDoor();  // This will open the door when unlocked
+        Debug.Log("Door Unlocked!");
+    }
+
+    public void LockDoor()
+    {
+        isLocked = true;
+        ToggleDoor();  // This will close the door when locked
+        Debug.Log("Door Locked!");
+    }
+    public void OpenDoor()
+    {
+        if (isLocked) return;  // Don't open if the door is locked
+        if (!isDoorOpen)
+        {
+            ToggleDoor();  // Use ToggleDoor to open it
+        }
+    }
+
+    public void CloseDoor()
+    {
+        if (isDoorOpen)
+        {
+            ToggleDoor();  // Use ToggleDoor to close it
+        }
+    }
+
+    //////////Door 
 }
