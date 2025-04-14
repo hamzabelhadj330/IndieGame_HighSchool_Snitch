@@ -33,7 +33,7 @@ public class PushToKeepOpen : MonoBehaviour
     {
         // Close the door first
         targetDoor.CloseDoor();
-        yield return new WaitForSeconds(2f); // Wait for the door to close
+        yield return new WaitForSeconds(1f); // Wait for the door to close
         targetDoor.LockDoor();  // Lock the door after closing
         isLocked = true;  // Prevent locking the door until the next trigger
     }
