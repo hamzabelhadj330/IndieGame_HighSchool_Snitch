@@ -19,4 +19,3 @@ Talk, observe, bluff, and betray — only the smartest will win in this battle o
 - 📜 Custom roles and sneaky objectives
 - 🗣️ In-game voice or text chat (planned)
 
-## 🚀 Getting Started
